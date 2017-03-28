@@ -9,7 +9,7 @@
         "declaration": true
     },
     "files": [
-        "innova-grid.ts"
+        "./src/innova-grid.ts"
     ],
     "exclude": [
         "node_modules"
