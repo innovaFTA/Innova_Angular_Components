@@ -1,1 +1,1 @@
-export * from './innovagrid/innova-grid.module';
+export { InnovaGridModule } from './innovagrid/innova-grid.module';

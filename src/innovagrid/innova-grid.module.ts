@@ -1,9 +1,10 @@
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA,Injectable } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { InnovaGridComponent } from './innova-grid.component';
 import { InnovaGridHeaderComponent } from './innova-grid-header.component';
 import { InnovaGridPagingComponent } from './innova-grid-paging.component';
+import { InnovaGridOptions } from './innova-grid.options';
 
 @NgModule({
     imports: [
@@ -14,11 +15,10 @@ import { InnovaGridPagingComponent } from './innova-grid-paging.component';
         InnovaGridHeaderComponent,
         InnovaGridPagingComponent
     ],
-    exports: [InnovaGridComponent],
+    exports: [InnovaGridComponent, InnovaGridOptions],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 
-@Injectable()
 export class InnovaGridModule {
 
 }
