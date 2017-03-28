@@ -1,0 +1,52 @@
+{
+  "name": "innova-components",
+  "version": "1.0.0-alpha.0.1",
+  "description": "Innova Angular Components",
+  "author": "Ahmet ALMIŞ <ahmetalmis@yahoo.com.tr>",
+  "url": "http://innova.com.tr",
+  "copyright": "Copyright 2017 Innova A.Ş",
+  "license": "MIT",
+  "angular-cli": {},
+  "scripts": {
+    "start": "ng serve",
+    "lint": "tslint \"src/**/*.ts\"",
+    "test": "ng test",
+    "pree2e": "webdriver-manager update",
+    "e2e": "protractor",
+    "prepublish": "tsc"
+  },
+  "private": false,
+  "dependencies": {
+    "@angular/common": "^2.4.8",
+    "@angular/compiler": "^2.4.8",
+    "@angular/core": "^2.4.8",
+    "core-js": "2.4.1",
+    "rxjs": "5.2.0",
+    "ts-helpers": "1.1.2",
+    "zone.js": "0.8.5"
+  },
+  "devDependencies": {
+    "codelyzer": "3.0.0-beta.4",
+    "ts-node": "3.0.2",
+    "tslint": "4.4.2",
+    "typescript": "^2.2.1"
+  },
+  "main": "protractor.conf.js",
+  "directories": {
+    "example": "examples"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/innovaFTA/AngularComponents.git"
+  },
+  "keywords": [
+    "innovaFTA",
+    "angular",
+    "components"
+  ],
+  "bugs": {
+    "url": "https://github.com/innovaFTA/AngularComponents/issues"
+  },
+  "homepage": "https://github.com/innovaFTA/AngularComponents#readme",
+  "typings": "./innova-component.d.ts"
+}
