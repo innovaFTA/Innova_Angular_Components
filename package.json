@@ -1,6 +1,6 @@
 {
   "name": "innova-components",
-  "version": "1.0.0-Alpha.0.1",
+  "version": "1.0.0-Alpha.0.2",
   "description": "innova angular 2 components",
   "main": "index.js",
   "typings": "./index.d.ts",
@@ -9,7 +9,9 @@
   },
   "dependencies": {
     "@angular/core": "2.4.8",
-    "rxjs":"5.2.0"
+    "@angular/common": "2.4.8",
+    "rxjs": "5.2.0",
+    "zone.js":"0.7.2"
   },
   "devDependencies": {
     "typescript": "^2.2.2"
