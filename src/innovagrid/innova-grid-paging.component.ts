@@ -41,12 +41,12 @@ export class InnovaGridPagingComponent implements OnInit {
 
     private createPages() {
         this.pages = [];
-        for (var i = 1; i <= this.pageCount; i++) {
+        for (var i: number = 1; i <= this.pageCount; i++) {
             this.pages.push(i);
         }
     }
 
-    onChange(page) {
+    onChange(page:number) {
         this.onChangePage.emit({ newPageIndex: page });
     }
 

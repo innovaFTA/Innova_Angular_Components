@@ -66,16 +66,16 @@ export class InnovaGridComponent implements OnInit, DoCheck {
             let obj = this.Options.Columns
                 .filter(x => x.DataField != null)
                 .map(a => {
-                    let navs = a.DataField.split('.');
-                    let elm = null;
+                    let navs: string[] = a.DataField.split('.');
+                    let elm: DataELement = null;
                     if (navs.length === 1) {
                         elm = new DataELement(a.DataField, x[navs[0]]);
                     }
                     else {
-                        let navElement = null;
+                        let navElement: string = null;
                         navElement = x;
                         navs.forEach(nav => {
-                            navElement = navElement[nav];
+                            navElement = navElement[Number(nav)];
                         });
                         elm = new DataELement(a.DataField, navElement);
                     }
@@ -100,7 +100,7 @@ export class InnovaGridComponent implements OnInit, DoCheck {
 
     // method of grid
 
-    public changePage(args) {
+    public changePage(args:any) {
         if (this.AllowPaging && this.StaticPaging) {
             this.Options.Initialize(args.newPageIndex);
             this.OnPageIndexChanged.emit({ newPageIndex: args.newPageIndex });
@@ -209,12 +209,12 @@ export class InnovaGridComponent implements OnInit, DoCheck {
 }
 
 // Grid oluşturmak için gerekli dataları içerecek
-class ModifiedData {
+export class ModifiedData {
     DataId: number;
     DataElements: DataELement[];
 }
 
-class DataELement {
+export class DataELement {
     value: string;
     key: string;
     constructor(_key: string, _value: string) {
