@@ -1,48 +1,37 @@
 {
   "name": "innova-components",
-  "version": "1.0.0-alpha.0.7",
-  "description": "Innova Angular Components",
-  "author": "Ahmet ALMIŞ <ahmetalmis@yahoo.com.tr>",
-  "url": "http://innova.com.tr",
-  "copyright": "Copyright 2017 Innova A.Ş",
-  "license": "MIT",
-  "angular-cli": {},
-  "scripts": {
-    "start": "ng serve",
-    "lint": "tslint \"src/**/*.ts\"",
-    "test": "ng test",
-    "pree2e": "webdriver-manager update",
-    "e2e": "protractor",
-    "prepublish": "tsc"
+  "version": "1.0.0-Alpha.0.1",
+  "description": "innova angular 2 components",
+  "main": "index.js",
+  "typings": "./index.d.ts",
+  "directories": {
+    "example": "examples"
   },
-  "private": false,
   "dependencies": {
-    "@angular/common": "^2.4.8",
-    "@angular/compiler": "^2.4.8",
-    "@angular/core": "^2.4.8",
-    "core-js": "2.4.1",
-    "rxjs": "5.2.0",
-    "ts-helpers": "1.1.2",
-    "zone.js": "0.8.5"
+    "@angular/core": "2.4.8",
+    "rxjs":"5.2.0"
   },
   "devDependencies": {
-    "codelyzer": "2.0.0-beta.4",
-    "ts-node": "3.0.2",
-    "tslint": "4.5.1",
     "typescript": "^2.2.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepublish": "tsc"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/innovaFTA/AngularComponents.git"
+    "url": "git+https://github.com/innovaFTA/Innova_Angular_Components.git"
   },
   "keywords": [
-    "innovaFTA",
-    "angular",
-    "components"
+    "Innova",
+    "FTA",
+    "Angular",
+    "Components"
   ],
+  "author": "Ahmet ALMIŞ <ahmetalmis@yahoo.com.tr>",
+  "license": "MIT",
   "bugs": {
-    "url": "https://github.com/innovaFTA/AngularComponents/issues"
+    "url": "https://github.com/innovaFTA/Innova_Angular_Components/issues"
   },
-  "homepage": "https://github.com/innovaFTA/AngularComponents#readme",
-  "typings": "./innova-grid.d.ts"
+  "homepage": "https://github.com/innovaFTA/Innova_Angular_Components#readme"
 }

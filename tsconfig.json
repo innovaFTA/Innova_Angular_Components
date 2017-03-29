@@ -2,14 +2,14 @@
     "compilerOptions": {
         "noImplicitAny": true,
         "module": "commonjs",
-        "target": "es6",
+        "target": "ES6",
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
         "sourceMap": true,
         "declaration": true
     },
     "files": [
-        "./src/innova-grid.ts"
+        "index.ts"
     ],
     "exclude": [
         "node_modules"
