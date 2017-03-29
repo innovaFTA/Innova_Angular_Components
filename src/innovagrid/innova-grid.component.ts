@@ -1,11 +1,13 @@
 import { Component, Input, OnInit, Output, EventEmitter, DoCheck, ChangeDetectionStrategy } from '@angular/core';
 
 import { InnovaGridOptions, Condition, ConditionType, ConditionalClass } from './innova-grid.options';
+
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/take';
 
 @Component({
+    moduleId: module.id,
     selector: 'innova-grid',
     templateUrl: 'innova-grid.template.html'
 })
@@ -99,7 +101,7 @@ export class InnovaGridComponent implements OnInit, DoCheck {
 
     // method of grid
 
-    public changePage(args:any) {
+    public changePage(args: any) {
         if (this.AllowPaging && this.StaticPaging) {
             this.Options.Initialize(args.newPageIndex);
             this.OnPageIndexChanged.emit({ newPageIndex: args.newPageIndex });

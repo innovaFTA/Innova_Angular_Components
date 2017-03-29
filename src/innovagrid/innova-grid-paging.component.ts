@@ -3,6 +3,7 @@ import { Component, Input, OnInit, DoCheck, Output, EventEmitter } from '@angula
 
 @Component({
     selector: 'innova-grid-paging',
+    moduleId: module.id,
     template: `
        <nav>
                     <ul class="pagination">
@@ -46,7 +47,7 @@ export class InnovaGridPagingComponent implements OnInit {
         }
     }
 
-    onChange(page:number) {
+    onChange(page: number) {
         this.onChangePage.emit({ newPageIndex: page });
     }
 
