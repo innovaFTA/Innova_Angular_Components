@@ -7,7 +7,6 @@ import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/take';
 
 @Component({
-    moduleId: module.id,
     selector: 'innova-grid',
     templateUrl: 'innova-grid.template.html'
 })
