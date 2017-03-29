@@ -1,6 +1,6 @@
 {
   "name": "innova-components",
-  "version": "1.0.0-alpha.0.4",
+  "version": "1.0.0-alpha.0.5",
   "description": "Innova Angular Components",
   "author": "Ahmet ALMIŞ <ahmetalmis@yahoo.com.tr>",
   "url": "http://innova.com.tr",
@@ -31,10 +31,6 @@
     "tslint": "4.4.2",
     "typescript": "^2.2.1"
   },
-  "main": "protractor.conf.js",
-  "directories": {
-    "example": "examples"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/innovaFTA/AngularComponents.git"
@@ -48,5 +44,5 @@
     "url": "https://github.com/innovaFTA/AngularComponents/issues"
   },
   "homepage": "https://github.com/innovaFTA/AngularComponents#readme",
-  "typings": "./innova-component.d.ts"
+  "typings": "./innova-grid.d.ts"
 }
