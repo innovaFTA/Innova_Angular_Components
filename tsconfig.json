@@ -2,30 +2,20 @@
     "compilerOptions": {
         "noImplicitAny": true,
         "module": "commonjs",
-        "moduleResolution": "node",
         "target": "ES6",
-        "stripInternal": true,
         "lib": [
             "es6",
             "dom"
         ],
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
-        "sourceMap": false,
-        "declaration": true,
-        "removeComments": false
+        "sourceMap": true,
+        "declaration": true
     },
     "files": [
         "index.ts"
     ],
     "exclude": [
         "node_modules"
-    ],
-    "angularCompilerOptions": {
-        /**
-      don't produce .ngfactory.ts or .css.shim.ts files,
-      they get published where the package will be consumed
-    **/
-        "skipTemplateCodegen": true
-    }
+    ]
 }
