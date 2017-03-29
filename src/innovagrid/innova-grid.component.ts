@@ -72,10 +72,10 @@ export class InnovaGridComponent implements OnInit, DoCheck {
                         elm = new DataELement(a.DataField, x[navs[0]]);
                     }
                     else {
-                        let navElement: string = null;
+                        let navElement: any = null;
                         navElement = x;
                         navs.forEach(nav => {
-                            navElement = navElement[Number(nav)];
+                            navElement = navElement[nav];
                         });
                         elm = new DataELement(a.DataField, navElement);
                     }
