@@ -7,8 +7,7 @@ import 'rxjs/add/operator/take';
 
 @Component({
     selector: 'innova-grid',
-    templateUrl: 'innova-grid.template.html',
-    changeDetection: ChangeDetectionStrategy.Default,
+    templateUrl: 'innova-grid.template.html'
 })
 
 export class InnovaGridComponent implements OnInit, DoCheck {
