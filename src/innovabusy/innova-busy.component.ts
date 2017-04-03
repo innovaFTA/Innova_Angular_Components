@@ -35,7 +35,7 @@ export interface IBusyContext {
     ]
 })
 export class InnovaBusyComponent implements DoCheck {
-    TemplateComponent;
+    TemplateComponent:any;
     private nmf: NgModuleFactory<any>;
     wrapperClass: string;
     template: string;

@@ -1,11 +1,11 @@
 
 
-import {Injectable} from '@angular/core';
-import {Subscription} from 'rxjs/Subscription';
+import { Injectable } from '@angular/core';
+import { Subscription } from 'rxjs/Subscription';
 
 @Injectable()
 export class InnovaPromiseTrackerService {
-    promiseList: Array<Promise<any> | Subscription> = [];
+    promiseList: Array<PromiseListObject> = [];
     delayPromise: number | any;
     durationPromise: number | any;
     delayJustFinished: boolean = false;
@@ -16,7 +16,7 @@ export class InnovaPromiseTrackerService {
 
         this.promiseList = [];
         options.promiseList.forEach(promise => {
-            if (!promise || promise['busyFulfilled']) {
+            if (!promise || promise.busyFulfilled) {
                 return;
             }
             this.addPromise(promise);
@@ -46,7 +46,7 @@ export class InnovaPromiseTrackerService {
         }
     }
 
-    private addPromise(promise: Promise<any> | Subscription) {
+    private addPromise(promise: PromiseListObject) {
         if (this.promiseList.indexOf(promise) !== -1) {
             return;
         }
@@ -65,8 +65,8 @@ export class InnovaPromiseTrackerService {
         }
     }
 
-    private finishPromise(promise: Promise<any> | Subscription) {
-        promise['busyFulfilled'] = true;
+    private finishPromise(promise:PromiseListObject) {
+        promise.busyFulfilled = true;
         const index = this.promiseList.indexOf(promise);
         if (index === -1) {
             return;
@@ -97,5 +97,10 @@ export class InnovaPromiseTrackerService {
 export interface IPromiseTrackerOptions {
     minDuration: number;
     delay: number;
-    promiseList: Promise<any>[];
+    promiseList: PromiseListObject[];
+}
+
+export interface PromiseListObject {
+    promise: Promise<any> | Subscription;
+    busyFulfilled: boolean;
 }

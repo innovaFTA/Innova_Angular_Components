@@ -1,24 +1,24 @@
-export function isDate(value) {
+export function isDate(value:any) {
     return Object.prototype.toString.call(value) === '[object Date]';
 }
 
-export function isRegExp(value) {
+export function isRegExp(value:any) {
     return Object.prototype.toString.call(value) === '[object RegExp]';
 }
 
-export function isWindow(obj) {
+export function isWindow(obj:any) {
     return obj && obj.window === obj;
 }
 
-export function isFunction(value) {
+export function isFunction(value:any) {
     return typeof value === 'function';
 }
 
-export function isDefined(value) {
+export function isDefined(value:any) {
     return typeof value !== 'undefined';
 }
 
-export function equals(o1, o2) {
+export function equals(o1:any, o2:any):any {
     if (o1 === o2) {
         return true
     };

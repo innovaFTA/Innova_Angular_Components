@@ -1,3 +1,8 @@
+/**
+ * @file Busy Config
+ * @author yumao<yuzhang.lille@gmail.com>
+ */
+
 import {Subscription} from 'rxjs/Subscription';
 
 export class InnovaBusyConfig implements IInnovaBusyConfig {
@@ -9,9 +14,12 @@ export class InnovaBusyConfig implements IInnovaBusyConfig {
     wrapperClass: string;
 
     constructor(config: IInnovaBusyConfig = {}) {
-        for (let option in BUSY_CONFIG_DEFAULTS) {
-            this[option] = config[option] != null ? config[option] : BUSY_CONFIG_DEFAULTS[option];
-        }
+        this.backdrop=config.backdrop?config.backdrop:BUSY_CONFIG_DEFAULTS.backdrop;
+        this.delay=config.delay?config.delay:BUSY_CONFIG_DEFAULTS.delay;
+        this.message=config.message?config.message:BUSY_CONFIG_DEFAULTS.message;
+        this.minDuration=config.minDuration?config.minDuration:BUSY_CONFIG_DEFAULTS.minDuration;
+        this.template=config.template?config.template:BUSY_CONFIG_DEFAULTS.template;
+        this.wrapperClass=config.wrapperClass?config.wrapperClass:BUSY_CONFIG_DEFAULTS.wrapperClass;
     }
 }
 
@@ -27,9 +35,9 @@ export interface IInnovaBusyConfig {
 
 export const BUSY_CONFIG_DEFAULTS = {
     template: `
-        <div class="ng-busy-default-wrapper">
-            <div class="ng-busy-default-sign">
-                <div class="ng-busy-default-spinner">
+        <div class="innova-busy-default-wrapper">
+            <div class="innova-busy-default-sign">
+                <div class="innova-busy-default-spinner">
                     <div class="bar1"></div>
                     <div class="bar2"></div>
                     <div class="bar3"></div>
@@ -43,7 +51,7 @@ export const BUSY_CONFIG_DEFAULTS = {
                     <div class="bar11"></div>
                     <div class="bar12"></div>
                 </div>
-                <div class="ng-busy-default-text">{{message}}</div>
+                <div class="innova-busy-default-text">{{message}}</div>
             </div>
         </div>
     `,
@@ -51,5 +59,5 @@ export const BUSY_CONFIG_DEFAULTS = {
     minDuration: 0,
     backdrop: true,
     message: 'Please wait...',
-    wrapperClass: 'ng-busy'
+    wrapperClass: 'innova-busy'
 };
