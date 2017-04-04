@@ -13,7 +13,8 @@
         ]
     },
     "files": [
-        "index.ts"
+        "src/innovabusy/index.ts",
+        "src/innovagrid/index.ts"
     ],
     "awesomeTypescriptLoaderOptions": {
         "resolveGlobs": true,
@@ -26,8 +27,5 @@
     "buildOnSave": false,
     "atom": {
         "rewriteTsconfig": false
-    },
-    "exclude": [
-        "node_modules"
-    ]
+    }
 }

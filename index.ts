@@ -1,1 +1,2 @@
-export * from './build/index';
+export * from './src/innovabusy/index';
+export * from './src/innovagrid/index';
