@@ -13,8 +13,7 @@
         ]
     },
     "files": [
-        "src/innovabusy/index.ts",
-        "src/innovagrid/index.ts"
+        "index.ts"
     ],
     "awesomeTypescriptLoaderOptions": {
         "resolveGlobs": true,
