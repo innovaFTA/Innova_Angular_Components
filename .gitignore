@@ -13,3 +13,20 @@ Thumbs.db
 
 # Ignored Folder
 examples
+
+# Node Files
+/node_modules
+npm-debug.log
+
+# OS generated files
+.DS_Store
+ehthumbs.db
+Icon?
+Thumbs.db
+
+# Style scripts
+build/busy.js
+
+# AOT files
+*.ngsummary.json
+*.ngfactory.ts
