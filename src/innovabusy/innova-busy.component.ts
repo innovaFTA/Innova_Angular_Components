@@ -1,8 +1,14 @@
 
-import {Component, Compiler, NgModule, NgModuleFactory, Injectable, DoCheck} from '@angular/core';
-import {trigger, state, style, transition, animate} from '@angular/animations';
+import {
+    Component,
+    DoCheck,
+    ViewChild,
+    ElementRef,
+    Renderer
+} from "@angular/core";
+import { trigger, style, transition, animate } from "@angular/animations";
 
-import {InnovaPromiseTrackerService} from './innova-promise-tracker.service';
+import { InnovaPromiseTrackerService } from "./innova-promise-tracker.service";
 
 
 const inactiveStyle = style({
@@ -17,11 +23,8 @@ export interface IBusyContext {
 
 @Component({
     selector: 'innova-busy',
-    template: `
-        <div [class]="wrapperClass" *ngIf="isActive()" @flyInOut>
-            <ng-container *ngComponentOutlet="TemplateComponent; ngModuleFactory: nmf;"></ng-container>
-        </div>
-    `,
+    exportAs: 'innova-busy',
+    templateUrl: './innova-busy.template.html',
     animations: [
         trigger('flyInOut', [
             transition('void => *', [
@@ -35,45 +38,27 @@ export interface IBusyContext {
     ]
 })
 export class InnovaBusyComponent implements DoCheck {
-    TemplateComponent:any;
-    private nmf: NgModuleFactory<any>;
+    @ViewChild('vcContainer') vcContainer: ElementRef;
     wrapperClass: string;
     template: string;
     message: string;
     private lastMessage: string;
-
     constructor(
         private tracker: InnovaPromiseTrackerService,
-        private compiler: Compiler
-    ) {}
+        private renderer: Renderer
+    ) { }
 
     ngDoCheck() {
-        if (this.message === this.lastMessage) {
-            return;
+        if (!this.isActive()) {
+            this.renderer.setElementStyle(this.vcContainer.nativeElement, "display", "none");
         }
-        this.lastMessage = this.message;
-        this.createDynamicTemplate();
+        else {
+            this.renderer.setElementStyle(this.vcContainer.nativeElement, "display", "block");
+        }
     }
 
-    createDynamicTemplate() {
-        const {template, message} = this;
 
-        @Component({template})
-        class TemplateComponent {
-            message: string = message;
-        }
-
-        @NgModule({
-            declarations: [TemplateComponent],
-            entryComponents: [TemplateComponent]
-        })
-        class TemplateModule {}
-
-        this.TemplateComponent = TemplateComponent;
-        this.nmf = this.compiler.compileModuleSync(TemplateModule);
-    }
-
-    isActive() {
+    isActive(): boolean {
         return this.tracker.isActive();
     }
 }

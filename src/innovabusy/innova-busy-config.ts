@@ -18,13 +18,11 @@ export class InnovaBusyConfig implements IInnovaBusyConfig {
         this.delay=config.delay?config.delay:BUSY_CONFIG_DEFAULTS.delay;
         this.message=config.message?config.message:BUSY_CONFIG_DEFAULTS.message;
         this.minDuration=config.minDuration?config.minDuration:BUSY_CONFIG_DEFAULTS.minDuration;
-        this.template=config.template?config.template:BUSY_CONFIG_DEFAULTS.template;
         this.wrapperClass=config.wrapperClass?config.wrapperClass:BUSY_CONFIG_DEFAULTS.wrapperClass;
     }
 }
 
 export interface IInnovaBusyConfig {
-    template?: string;
     delay?: number;
     minDuration?: number;
     backdrop?: boolean;

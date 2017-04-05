@@ -81,5 +81,6 @@ export enum ConditionType {
     GraterThen = 1,
     GraterThenEqual = 2,
     SMallerThen = 3,
-    SMallerThenEqual = 4
+    SMallerThenEqual = 4,
+    NotEqual = 5
 }

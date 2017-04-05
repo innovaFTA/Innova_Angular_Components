@@ -156,6 +156,10 @@ export class InnovaGridComponent implements OnInit, DoCheck {
                             if (datas.find(a => a.key === x.DataField).value <= x.ConditionValue) {
                                 result = true;
                             }
+                        case ConditionType.NotEqual:
+                            if (datas.find(a => a.key !== x.DataField).value <= x.ConditionValue) {
+                                result = true;
+                            }
                             break;
                     }
                 });

@@ -9,5 +9,6 @@
 /tslint.json
 /typings.json
 /webpack.config.js
+/examples
 
 .gitignore

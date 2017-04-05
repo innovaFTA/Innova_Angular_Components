@@ -65,7 +65,7 @@ export class InnovaPromiseTrackerService {
         }
     }
 
-    private finishPromise(promise:PromiseListObject) {
+    private finishPromise(promise: PromiseListObject) {
         promise.busyFulfilled = true;
         const index = this.promiseList.indexOf(promise);
         if (index === -1) {

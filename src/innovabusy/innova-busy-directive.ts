@@ -7,15 +7,15 @@ import {
     ComponentFactoryResolver,
     ComponentRef,
     Injector
-} from '@angular/core';
-import { Subscription } from 'rxjs/Subscription';
+} from "@angular/core";
+import { Subscription } from "rxjs/Subscription";
 
-import { equals } from './util';
-import { InnovaPromiseTrackerService } from './innova-promise-tracker.service';
-import { InnovaBusyService } from './innova-busy.service';
-import { IInnovaBusyConfig } from './innova-busy-config';
-import { InnovaBusyComponent } from './innova-busy.component';
-import { InnovaBusyBackdropComponent } from './innova-busy-backdrop.component';
+import { equals } from "./util";
+import { InnovaPromiseTrackerService } from "./innova-promise-tracker.service";
+import { InnovaBusyService } from "./innova-busy.service";
+import { IInnovaBusyConfig } from "./innova-busy-config";
+import { InnovaBusyComponent } from "./innova-busy.component";
+import { InnovaBusyBackdropComponent } from "./innova-busy-backdrop.component";
 
 /**
  * ### Syntax
@@ -25,11 +25,11 @@ import { InnovaBusyBackdropComponent } from './innova-busy-backdrop.component';
  * - `<div [ngBusy]="{busy: busy, message: 'Loading...', backdrop: false, delay: 200, minDuration: 600}">...</div>`
  */
 @Directive({
-    selector: '[innovaBusy]',
+    selector: "[innovaBusy]",
     providers: [InnovaPromiseTrackerService]
 })
 export class InnovaBusyDirective implements DoCheck {
-    @Input('innovaBusy') options: any;
+    @Input("innovaBusy") options: any;
     private optionsRecord: any;
     private optionsNorm: IInnovaBusyConfig;
     template: string;
@@ -74,7 +74,7 @@ export class InnovaBusyDirective implements DoCheck {
 
     // As ngOnChanges does not work on Object detection, ngDoCheck is using
     ngDoCheck() {
-        const options = this.optionsNorm = this.normalizeOptions(this.options);
+        const options: any = this.optionsNorm = this.normalizeOptions(this.options);
 
         if (!this.dectectOptionsChange()) {
             return;
@@ -124,10 +124,9 @@ export class InnovaBusyDirective implements DoCheck {
         const busyFactory = this.cfResolver.resolveComponentFactory(InnovaBusyComponent);
         this.busyRef = this.vcRef.createComponent(busyFactory, null, this.injector);
 
-        const { message, wrapperClass, template } = this.optionsNorm;
+        const { message, wrapperClass } = this.optionsNorm;
         const instance = this.busyRef.instance;
         instance.message = message;
         instance.wrapperClass = wrapperClass;
-        instance.template = template;
     }
 }
