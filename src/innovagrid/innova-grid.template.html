@@ -1,59 +1,64 @@
 <div class="text-danger" *ngIf="ErrorOnProcess">
     Grid yüklenemedi. Hata->{{fault}}</div>
-<div class="row" *ngIf="!ErrorOnProcess">
-    <div class="col-lg-12">
-        <div class="card">
-            <div class="card-header">
-                <i class="fa fa-align-justify"></i> {{Options.Name}}
-                <div class="pull-right">
-                    <ng-content select="Header"></ng-content>
+<ng-container *ngIf="Options">
+    <div class="row" *ngIf="!ErrorOnProcess">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                  
+                    <i class={{Options.HeadIcon}}></i> {{Options.Name}}
+                    <div class="pull-right">
+                        <ng-content select="Header"></ng-content>
+                    </div>
                 </div>
-            </div>
-            <div class="card-block">
-                <div class="text-center">
-                    <i *ngIf="Options.isLoading" class="fa fa-spinner fa-spin fa-3x"></i>
+                <div class="card-block">
+                    <div class="text-center">
+                        <i *ngIf="Options.isLoading" class="fa fa-spinner fa-spin fa-3x"></i>
+                    </div>
+                    <div class="table-responsive" *ngIf="dataLength > 0">
+                        <table *ngIf="!Options.isLoading" class="table table-bordered table-striped table-condensed">
+                            <thead [HeaderCollection]="Options.Columns" [AllowCheckBoxHeader]="AllowCheckBox" (OnAllCheckBoxChanged)="onallcheckBoxChanged($event)">
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let data of Datas" class="{{ApplyRowClassWithConditions(data.DataElements,Options.CondionalRowClasses)}}">
+                                    <td *ngIf="AllowCheckBox" style="width:25px;">
+                                        <input type="checkbox" [checked]="data.IsChecked" value="{{data.DataId}}" (ngModel)="data.IsChecked" [hidden]="!CheckCondition(data.DataElements,Options.CheckBoxConditions)"
+                                            (click)="handleChange($event)"></td>
+                                    <td *ngFor="let d of data.DataElements">{{d.value}}</td>
+                                    <td>
+                                        <ng-container *ngFor="let act of Options.Actions">
+                                            <ng-container *ngIf="hasPermission(act.permission)" [ngSwitch]="act.ActionElementType">
+                                                <!--Button type-->
+                                                <button class="{{act.Class}}" [style.width]="act.constWidth" [hidden]="!CheckCondition(data.DataElements,act.ActionVisibilityConditions)"
+                                                    [title]="act.title?act.title:''" *ngSwitchCase="0" type="button" (click)="onClick(act.CommandArg,data.DataId,act.DemandedDataFields)"> 
+                                                <i *ngIf="act.IconClass" class="{{act.IconClass}}"></i>&nbsp;
+                                                {{act.text}}
+                                             </button>
+                                                <!--İmageButton type-->
+                                                <img style="cursor: pointer" [title]="act.title?act.title:''" [hidden]="!CheckCondition(data.DataElements,act.ActionVisibilityConditions)"
+                                                    *ngSwitchCase="1" [src]="act.imgSrc" (click)="onClick(act.CommandArg,data.DataId,act.DemandedDataFields)"
+                                                />
+                                                <!--IConType type-->
+                                                <i style="cursor: pointer" [hidden]="!CheckCondition(data.DataElements,act.ActionVisibilityConditions)" [title]="act.title?act.title:''"
+                                                    class="{{act.Class}}" *ngSwitchCase="3" (click)="onClick(act.CommandArg,data.DataId,act.DemandedDataFields)"></i>
+                                                <!--Link Type type-->
+                                                <a href="#" [title]="act.title?act.title:''" (click)="onClick(act.CommandArg,data.DataId)" *ngSwitchCase="2" [hidden]="!CheckCondition(data.DataElements,act.ActionVisibilityConditions)"></a>
+                                                <span *ngIf="CheckCondition(data.DataElements,act.ActionVisibilityConditions)">&nbsp;</span>
+                                            </ng-container>
+                                        </ng-container>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <!--paging is here-->
+                        <innova-grid-paging *ngIf="AllowPaging && !Options.isLoading && PageCount>1" (onChangePage)="changePage($event)" [currentPage]="Options.selectedPage"
+                            [pageCount]="PageCount" [paginationRange] = "Options.PaginationRange"></innova-grid-paging>
+                    </div>
+                    <div *ngIf="dataLength == 0 && !Options.isLoading" class="alert alert-danger" role="alert"><i class="fa fa-exclamation-triangle fa-2"></i> {{Options.EmptyMessage}}</div>
                 </div>
-                <div *ngIf="dataLength > 0">
-                    <table *ngIf="!Options.isLoading" class="table table-bordered table-striped table-condensed">
-                        <thead [HeaderCollection]="Options.Columns">
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let data of Datas" class="{{ApplyRowClassWithConditions(data.DataElements,Options.CondionalRowClasses)}}">
-                                <td *ngFor="let d of data.DataElements">{{d.value}}</td>
-                                <td>
-                                    <span [ngSwitch]="act.ActionElementType" *ngFor="let act of Options.Actions"> 
-                                        <!--Button type-->
-                                    <button class="{{act.Class}}"  [style.width]="act.constWidth"  
-                                    [hidden]="!CheckCondition(data.DataElements,act.ActionVisibilityConditions)"                    
-                                     [title]="act.title?act.title:''" *ngSwitchCase="0" type="button" 
-                                    (click)="onClick(act.CommandArg,data.DataId,act.DemandedDataFields)"> 
-                                       <i *ngIf="act.IconClass" class="{{act.IconClass}}"></i>&nbsp;
-                                    {{act.text}}
-                                    </button>  
-                                    <!--İmageButton type-->
-                                    <img style="cursor: pointer" [title]="act.title?act.title:''" 
-                                    [hidden]="!CheckCondition(data.DataElements,act.ActionVisibilityConditions)" 
-                                    *ngSwitchCase="1" [src]="act.imgSrc" (click)="onClick(act.CommandArg,data.DataId,act.DemandedDataFields)" />
-                                    <!--IConType type-->
-                                    <i style="cursor: pointer"  [hidden]="!CheckCondition(data.DataElements,act.ActionVisibilityConditions)" 
-                                     [title]="act.title?act.title:''" class="{{act.Class}}" *ngSwitchCase="3" 
-                                     (click)="onClick(act.CommandArg,data.DataId,act.DemandedDataFields)"></i>
-                                     <!--Link Type type-->
-                                    <a href="#" [title]="act.title?act.title:''" (click)="onClick(act.CommandArg,data.DataId)" *ngSwitchCase="2"
-                                    [hidden]="!CheckCondition(data.DataElements,act.ActionVisibilityConditions,act.DemandedDataFields)" ></a>
-                                </span>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <!--paging is here-->
-                    <innova-grid-paging *ngIf="AllowPaging && !Options.isLoading && PageCount>1" (onChangePage)="changePage($event)" [currentPage]="Options.selectedPage"
-                        [pageCount]="PageCount"></innova-grid-paging>
-                </div>
-                <div *ngIf="dataLength == 0 && !Options.isLoading" class="alert alert-danger" role="alert"><i class="fa fa-exclamation-triangle fa-2"></i> Herhangi bir kayıt bulunmamaktadır</div>
             </div>
         </div>
+        <!--/.col-->
     </div>
-    <!--/.col-->
-</div>
-<!--/.row-->
+    <!--/.row-->
+</ng-container>

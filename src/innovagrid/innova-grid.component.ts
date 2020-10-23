@@ -18,18 +18,31 @@ export class InnovaGridComponent implements OnInit, DoCheck {
     @Input() PageSize: number;
     @Input() StaticPaging = true;
     @Input() PageCount: number;
+    @Input() RowCount: number;
+    @Input() AllowCheckBox: boolean;
+    @Input() HeadIcon: string;
+    @Input() HeaderAllowCheckBox: boolean;
 
     // Private properties for only component
     ErrorOnProcess = false;
     fault: string;
     Datas: ModifiedData[] = [];
+    TempDatas: ModifiedData[] = [];
+
     loading: boolean;
     dataLength = 0;
     startIndex = 0;
+    isDataChecked = false;
+    idDataChecked: number;
+    isPageChanged: boolean = false;
+
+    private oldDataSource: any = null;
 
     // Events
     @Output() OnButtonclick = new EventEmitter();
     @Output() OnPageIndexChanged = new EventEmitter();
+    @Output() OnCheckBoxChanged = new EventEmitter();
+    @Output() OnAllCheckBoxChanged = new EventEmitter();
 
     constructor() { }
 
@@ -55,12 +68,22 @@ export class InnovaGridComponent implements OnInit, DoCheck {
     }
 
     ngDoCheck() {
-        if (this.Options.DataSource) {
+        if (this.Options.DataSource && this.oldDataSource !== this.Options.DataSource) {
             this.createTableWithData();
+            this.oldDataSource = this.Options.DataSource;
+        }
+
+        if (this.Options.DataSource && this.isPageChanged) {
+            this.Datas.forEach(x => {
+                if (!this.TempDatas.find(y => y.DataId === x.DataId)) {
+                    this.TempDatas.push(x);
+                }
+            });
         }
     }
 
     private createTableWithData() {
+        this.TempDatas = [];
         this.Datas = [];
         this.Options.DataSource.map(x => {
             let obj = this.Options.Columns
@@ -89,12 +112,24 @@ export class InnovaGridComponent implements OnInit, DoCheck {
             if (obj) {
                 this.Datas.push({
                     DataId: x[this.Options.PrimaryFieldName],
-                    DataElements: obj
+                    DataElements: obj,
+                    IsChecked: (((this.idDataChecked == undefined) || (this.TempDatas.find(x => x.DataId == this.idDataChecked) == undefined)) && !this.isPageChanged)
+                        ? null
+                        : (this.idDataChecked == undefined && this.isPageChanged && (this.TempDatas.find(y => y.DataId == x[this.Options.PrimaryFieldName]) == undefined))
+                            ? null
+                            : (this.idDataChecked == undefined && this.isPageChanged && (this.TempDatas.find(y => y.DataId == x[this.Options.PrimaryFieldName]) != undefined))
+                                ? (this.TempDatas.find(y => y.DataId == x[this.Options.PrimaryFieldName]).IsChecked)
+                                : this.idDataChecked != undefined && (x[this.Options.PrimaryFieldName] == this.idDataChecked
+                                    ? (this.TempDatas.find(x => x.DataId == this.idDataChecked).IsChecked)
+                                    : (this.TempDatas.find(y => y.DataId == x[this.Options.PrimaryFieldName]).IsChecked))
                 });
             }
         });
         this.dataLength = this.Datas.length;
         this.Options.CurrentDataLength = this.Datas.length;
+        if (this.RowCount != null) {
+            this.PageCount = ((this.RowCount < this.PageSize)) ? 1 : ((this.RowCount % this.PageSize) == 0 && (this.RowCount >= this.PageSize)) ? (this.RowCount / this.PageSize) : (Math.floor(this.RowCount / this.PageSize) + 1);
+        }
         // this.Datas = _.take(_.rest(this.Datas,this.startIndex), this.PageSize);
     }
 
@@ -105,8 +140,57 @@ export class InnovaGridComponent implements OnInit, DoCheck {
             this.Options.Initialize(args.newPageIndex);
             this.OnPageIndexChanged.emit({ newPageIndex: args.newPageIndex });
         }
+        if (this.AllowCheckBox) {
+            this.isPageChanged = true;
+            this.idDataChecked = undefined;
+        }
     }
 
+    public handleChange(args) {
+        this.isDataChecked = args.target.checked;
+        this.idDataChecked = args.target.value;
+        if (!this.isPageChanged && !this.TempDatas.find(y => y.DataId == this.idDataChecked)) {
+            this.TempDatas = this.Datas;
+        }
+
+        this.TempDatas.filter(x => x.DataId == this.idDataChecked).map(x => x.IsChecked = this.isDataChecked);
+        this.isPageChanged = false;
+
+        this.OnCheckBoxChanged.emit({ checkedState: args.target.checked, checkedValue: args.target.value, checkedList: this.TempDatas.filter(x => x.IsChecked) });
+    }
+    public checkChange(id) {
+  
+        this.idDataChecked = id;
+     
+  }
+
+  onallcheckBoxChanged(args) {
+
+
+       this.isDataChecked = args.isDataChecked;
+    
+           this.TempDatas = this.Datas;
+    
+    
+        if( this.isDataChecked==true){ 
+        this.TempDatas.forEach(element => {
+      
+            element.IsChecked=true;
+            this.checkChange(element.DataId);
+            
+        });
+       
+    }else{
+        this.TempDatas.forEach(element => {
+    
+            element.IsChecked=false;
+        });
+       
+    }
+          
+       this.OnAllCheckBoxChanged.emit({checkedState:  this.isDataChecked, checkedValue: "1", checkedList: this.TempDatas.filter(x => x.IsChecked) });
+   
+      }
     // event of grid
     onClick(_commandArg: string, _rowId: number, _demandedDataFields: string = null) {
         let _extraFields: any = {};
@@ -125,40 +209,40 @@ export class InnovaGridComponent implements OnInit, DoCheck {
     }
 
     // check condtion for action OnButtonclick
+    // tslint:disable-next-line:member-ordering
     public CheckCondition(datas: DataELement[], Conditions?: Condition[]): boolean {
-        let result = true;
+        let results: boolean[] = [];
         if (Conditions) {
-            result = false;
             if (Conditions.length > 0) {
                 Conditions.forEach(x => {
                     switch (x.ConditionType) {
                         case ConditionType.Equal:
                             if (datas.find(a => a.key === x.DataField).value === x.ConditionValue) {
-                                result = true;
+                                results.push(true);
                             }
                             break;
                         case ConditionType.GraterThen:
                             if (datas.find(a => a.key === x.DataField).value > x.ConditionValue) {
-                                result = true;
+                                results.push(true);
                             }
                             break;
                         case ConditionType.GraterThenEqual:
                             if (datas.find(a => a.key === x.DataField).value >= x.ConditionValue) {
-                                result = true;
+                                results.push(true);
                             }
                             break;
                         case ConditionType.SMallerThen:
                             if (datas.find(a => a.key === x.DataField).value < x.ConditionValue) {
-                                result = true;
+                                results.push(true);
                             }
                             break;
                         case ConditionType.SMallerThenEqual:
                             if (datas.find(a => a.key === x.DataField).value <= x.ConditionValue) {
-                                result = true;
+                                results.push(true);
                             }
                         case ConditionType.NotEqual:
                             if (datas.find(a => a.key !== x.DataField).value <= x.ConditionValue) {
-                                result = true;
+                                results.push(true);
                             }
                             break;
                     }
@@ -166,7 +250,12 @@ export class InnovaGridComponent implements OnInit, DoCheck {
             }
         }
 
-        return result;
+        if (Conditions != null && Conditions.length !== results.length) {
+            return false;
+        }
+        else {
+            return true;
+        }
     }
 
     public ApplyRowClassWithConditions(datas: DataELement[], conditionalClass: ConditionalClass[]): string {
@@ -210,12 +299,20 @@ export class InnovaGridComponent implements OnInit, DoCheck {
 
         return resp;
     }
+
+    hasPermission(permission) {
+        if (permission && this.Options.UserPermissions) {
+            return this.Options.UserPermissions.find(item => item.PermissionCode.toLowerCase().trim() === permission.toLowerCase().trim()) != null;
+        }
+        return true;
+    }
 }
 
 // Grid oluşturmak için gerekli dataları içerecek
 export class ModifiedData {
     DataId: number;
     DataElements: DataELement[];
+    IsChecked?: boolean = false;
 }
 
 export class DataELement {

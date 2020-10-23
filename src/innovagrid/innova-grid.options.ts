@@ -9,11 +9,16 @@ export class InnovaGridOptions {
     public PrimaryFieldName: string;
     public Columns: InnovaGridColumn[];
     public CurrentDataLength: number;
+    public UserPermissions: any[];
+    public CheckBoxConditions?: Condition[];
+    public PaginationFooterText: PaginationFooterText;
+    public HeadIcon;
     //private Fields
     private Actions: InnovaGridActions[];
     private CondionalRowClasses?: ConditionalClass[];
     private Name = 'Default';
     private selectedPage: number;
+    private EmptyMessage: string;
 
     public Initialize(page?: number) {
         if (page) {
@@ -23,13 +28,25 @@ export class InnovaGridOptions {
         }
     }
 
-    constructor(_name: string, _cols: InnovaGridColumn[], _actions: InnovaGridActions[], _primaryFieldName: string,
-        _condionalRowClasses?: ConditionalClass[]) {
+    constructor(
+        _name: string,
+        _cols: InnovaGridColumn[],
+        _actions?: InnovaGridActions[],
+        _primaryFieldName?: string,
+        _condionalRowClasses?: ConditionalClass[],
+        _userPermissions?: any[],
+        _checkBoxConditions?: Condition[],
+        _emptyMessage?: string,
+        _paginationFooterText?: PaginationFooterText) {
         this.Name = _name;
         this.Columns = _cols;
         this.Actions = _actions;
         this.PrimaryFieldName = _primaryFieldName;
         this.CondionalRowClasses = _condionalRowClasses;
+        this.UserPermissions = _userPermissions;
+        this.CheckBoxConditions = _checkBoxConditions;
+        this.EmptyMessage = _emptyMessage != null ? _emptyMessage : "Herhangi bir kayıt bulunmamaktadır";
+        this.PaginationFooterText = _paginationFooterText != null ? _paginationFooterText : { First: "İlk", Previous: "Önceki", Next: "Sonraki", Last: "Son" }
     }
 }
 
@@ -61,6 +78,7 @@ export interface InnovaGridActions {
     title?: string;
     ActionVisibilityConditions?: Condition[];
     constWidth?: string;
+    permission?: string;
 }
 
 export enum ActionElType {
@@ -74,6 +92,7 @@ export interface Condition {
     DataField: string;
     ConditionValue: any;
     ConditionType: ConditionType;
+    ExternalDataCheck?: boolean;
 }
 
 export enum ConditionType {
@@ -83,4 +102,11 @@ export enum ConditionType {
     SMallerThen = 3,
     SMallerThenEqual = 4,
     NotEqual = 5
+}
+
+export interface PaginationFooterText {
+    First: string;
+    Previous: string;
+    Next: string;
+    Last: string;
 }
