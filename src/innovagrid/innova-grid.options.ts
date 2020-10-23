@@ -13,6 +13,11 @@ export class InnovaGridOptions {
     public CheckBoxConditions?: Condition[];
     public PaginationFooterText: PaginationFooterText;
     public HeadIcon;
+
+        //Bu değer, pager kısmında ActivePage in önünde ve arkasında akç sayfa numarası gösterileceğini belirler. Bu değer 3 set edilmiş olsun. aktice page 5. sayfa olsun 
+    //pager ksımındaki görünüm ... 2 3 4 5 6 7 8 ...  şeklinde olacaktır.
+   public PaginationRange: number;
+   
     //private Fields
     private Actions: InnovaGridActions[];
     private CondionalRowClasses?: ConditionalClass[];
