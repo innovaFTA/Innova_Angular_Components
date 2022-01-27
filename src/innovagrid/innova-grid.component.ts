@@ -62,9 +62,11 @@ export class InnovaGridComponent implements OnInit, DoCheck {
                 console.error(this.fault);
                 this.ErrorOnProcess = true;
             }
+
+            this.Options.Initialize();
         }
 
-        this.Options.Initialize();
+        
     }
 
     ngDoCheck() {

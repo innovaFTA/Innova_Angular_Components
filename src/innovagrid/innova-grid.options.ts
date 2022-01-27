@@ -16,7 +16,7 @@ export class InnovaGridOptions {
 
         //Bu değer, pager kısmında ActivePage in önünde ve arkasında akç sayfa numarası gösterileceğini belirler. Bu değer 3 set edilmiş olsun. aktice page 5. sayfa olsun 
     //pager ksımındaki görünüm ... 2 3 4 5 6 7 8 ...  şeklinde olacaktır.
-   public PaginationRange: number;
+   public PaginationRange: number = 3;
    
     //private Fields
     private Actions: InnovaGridActions[];
@@ -42,7 +42,8 @@ export class InnovaGridOptions {
         _userPermissions?: any[],
         _checkBoxConditions?: Condition[],
         _emptyMessage?: string,
-        _paginationFooterText?: PaginationFooterText) {
+        _paginationFooterText?: PaginationFooterText,
+        _paginationRange?: number) {
         this.Name = _name;
         this.Columns = _cols;
         this.Actions = _actions;
@@ -51,7 +52,8 @@ export class InnovaGridOptions {
         this.UserPermissions = _userPermissions;
         this.CheckBoxConditions = _checkBoxConditions;
         this.EmptyMessage = _emptyMessage != null ? _emptyMessage : "Herhangi bir kayıt bulunmamaktadır";
-        this.PaginationFooterText = _paginationFooterText != null ? _paginationFooterText : { First: "İlk", Previous: "Önceki", Next: "Sonraki", Last: "Son" }
+        this.PaginationFooterText = _paginationFooterText != null ? _paginationFooterText : { First: "İlk", Previous: "Önceki", Next: "Sonraki", Last: "Son" };
+        this.PaginationRange = _paginationRange != null ? _paginationRange : this.PaginationRange;
     }
 }
 
