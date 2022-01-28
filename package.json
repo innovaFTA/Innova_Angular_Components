@@ -1,6 +1,6 @@
 {
   "name": "innova-components",
-  "version": "1.0.0-Alpha.0.116",
+  "version": "1.0.0-Alpha.0.117",
   "description": "innova angular 2 components",
   "main": "index.js",
   "typings": "./index.d.ts",
