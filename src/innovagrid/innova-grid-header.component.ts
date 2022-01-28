@@ -9,6 +9,7 @@ import { InnovaGridColumn } from './innova-grid.options';
     <input type="checkbox" [checked]="false" (click)="allhandleChange($event)" value="1" 
     >
     </th>
+    <th *ngIf="AllowCheckBox"></th>
     <th *ngFor="let col of HeaderCollection" width="{{col.Width}}">{{col.Header}}</th>
 </tr>
     `
@@ -17,6 +18,7 @@ import { InnovaGridColumn } from './innova-grid.options';
 export class InnovaGridHeaderComponent {
     @Input() HeaderCollection: InnovaGridColumn[];
     @Input() AllowCheckBoxHeader: boolean;
+    @Input() AllowCheckBox: boolean;
     @Output() OnAllCheckBoxChanged = new EventEmitter();
     constructor() { }
     public allhandleChange(args) {

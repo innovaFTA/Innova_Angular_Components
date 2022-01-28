@@ -70,17 +70,19 @@ export class InnovaGridComponent implements OnInit, DoCheck {
     }
 
     ngDoCheck() {
-        if (this.Options.DataSource && this.oldDataSource !== this.Options.DataSource) {
-            this.createTableWithData();
-            this.oldDataSource = this.Options.DataSource;
-        }
-
-        if (this.Options.DataSource && this.isPageChanged) {
-            this.Datas.forEach(x => {
-                if (!this.TempDatas.find(y => y.DataId === x.DataId)) {
-                    this.TempDatas.push(x);
-                }
-            });
+        if(this.Options){
+            if (this.Options.DataSource && this.oldDataSource !== this.Options.DataSource) {
+                this.createTableWithData();
+                this.oldDataSource = this.Options.DataSource;
+            }
+    
+            if (this.Options.DataSource && this.isPageChanged) {
+                this.Datas.forEach(x => {
+                    if (!this.TempDatas.find(y => y.DataId === x.DataId)) {
+                        this.TempDatas.push(x);
+                    }
+                });
+            }
         }
     }
 
@@ -212,38 +214,59 @@ export class InnovaGridComponent implements OnInit, DoCheck {
 
     // check condtion for action OnButtonclick
     // tslint:disable-next-line:member-ordering
-    public CheckCondition(datas: DataELement[], Conditions?: Condition[]): boolean {
+    public CheckCondition(mData: ModifiedData, Conditions?: Condition[]): boolean {
         let results: boolean[] = [];
         if (Conditions) {
             if (Conditions.length > 0) {
                 Conditions.forEach(x => {
+                    let dataValue;
+
+                    if (!x.ExternalDataCheck) {
+                        dataValue = mData.DataElements.find(a => a.key === x.DataField).value;
+                    }
+                    else {
+
+                        let selectedData = this.Options.DataSource.filter(a => a.Id == mData.DataId)[0];
+
+                        let navs: string[] = x.DataField.split('.');
+                        if (navs.length === 1) {
+                            dataValue = selectedData[x.DataField];
+                        }
+                        else {
+                            navs.forEach(nav => {
+                                selectedData = selectedData[nav];
+                            });
+                            dataValue = selectedData;
+                        }
+                    }
+
                     switch (x.ConditionType) {
                         case ConditionType.Equal:
-                            if (datas.find(a => a.key === x.DataField).value === x.ConditionValue) {
+                            if (dataValue === x.ConditionValue) {
                                 results.push(true);
                             }
                             break;
                         case ConditionType.GraterThen:
-                            if (datas.find(a => a.key === x.DataField).value > x.ConditionValue) {
+                            if (dataValue > x.ConditionValue) {
                                 results.push(true);
                             }
                             break;
                         case ConditionType.GraterThenEqual:
-                            if (datas.find(a => a.key === x.DataField).value >= x.ConditionValue) {
+                            if (dataValue >= x.ConditionValue) {
                                 results.push(true);
                             }
                             break;
                         case ConditionType.SMallerThen:
-                            if (datas.find(a => a.key === x.DataField).value < x.ConditionValue) {
+                            if (dataValue < x.ConditionValue) {
                                 results.push(true);
                             }
                             break;
                         case ConditionType.SMallerThenEqual:
-                            if (datas.find(a => a.key === x.DataField).value <= x.ConditionValue) {
+                            if (dataValue <= x.ConditionValue) {
                                 results.push(true);
                             }
                         case ConditionType.NotEqual:
-                            if (datas.find(a => a.key !== x.DataField).value <= x.ConditionValue) {
+                            if (dataValue <= x.ConditionValue) {
                                 results.push(true);
                             }
                             break;

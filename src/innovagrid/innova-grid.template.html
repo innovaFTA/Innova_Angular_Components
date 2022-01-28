@@ -17,33 +17,33 @@
                     </div>
                     <div class="table-responsive" *ngIf="dataLength > 0">
                         <table *ngIf="!Options.isLoading" class="table table-bordered table-striped table-condensed">
-                            <thead [HeaderCollection]="Options.Columns" [AllowCheckBoxHeader]="AllowCheckBox" (OnAllCheckBoxChanged)="onallcheckBoxChanged($event)">
+                            <thead [HeaderCollection]="Options.Columns" [AllowCheckBoxHeader]="HeaderAllowCheckBox" [AllowCheckBox]="AllowCheckBox" (OnAllCheckBoxChanged)="onallcheckBoxChanged($event)">
                             </thead>
                             <tbody>
                                 <tr *ngFor="let data of Datas" class="{{ApplyRowClassWithConditions(data.DataElements,Options.CondionalRowClasses)}}">
                                     <td *ngIf="AllowCheckBox" style="width:25px;">
-                                        <input type="checkbox" [checked]="data.IsChecked" value="{{data.DataId}}" (ngModel)="data.IsChecked" [hidden]="!CheckCondition(data.DataElements,Options.CheckBoxConditions)"
+                                        <input type="checkbox" [checked]="data.IsChecked" value="{{data.DataId}}" (ngModel)="data.IsChecked" [hidden]="!CheckCondition(data,Options.CheckBoxConditions)"
                                             (click)="handleChange($event)"></td>
                                     <td *ngFor="let d of data.DataElements">{{d.value}}</td>
                                     <td>
                                         <ng-container *ngFor="let act of Options.Actions">
                                             <ng-container *ngIf="hasPermission(act.permission)" [ngSwitch]="act.ActionElementType">
                                                 <!--Button type-->
-                                                <button class="{{act.Class}}" [style.width]="act.constWidth" [hidden]="!CheckCondition(data.DataElements,act.ActionVisibilityConditions)"
+                                                <button class="{{act.Class}}" [style.width]="act.constWidth" [hidden]="!CheckCondition(data,act.ActionVisibilityConditions)"
                                                     [title]="act.title?act.title:''" *ngSwitchCase="0" type="button" (click)="onClick(act.CommandArg,data.DataId,act.DemandedDataFields)"> 
                                                 <i *ngIf="act.IconClass" class="{{act.IconClass}}"></i>&nbsp;
                                                 {{act.text}}
                                              </button>
                                                 <!--İmageButton type-->
-                                                <img style="cursor: pointer" [title]="act.title?act.title:''" [hidden]="!CheckCondition(data.DataElements,act.ActionVisibilityConditions)"
+                                                <img style="cursor: pointer" [title]="act.title?act.title:''" [hidden]="!CheckCondition(data,act.ActionVisibilityConditions)"
                                                     *ngSwitchCase="1" [src]="act.imgSrc" (click)="onClick(act.CommandArg,data.DataId,act.DemandedDataFields)"
                                                 />
                                                 <!--IConType type-->
-                                                <i style="cursor: pointer" [hidden]="!CheckCondition(data.DataElements,act.ActionVisibilityConditions)" [title]="act.title?act.title:''"
+                                                <i style="cursor: pointer" [hidden]="!CheckCondition(data,act.ActionVisibilityConditions)" [title]="act.title?act.title:''"
                                                     class="{{act.Class}}" *ngSwitchCase="3" (click)="onClick(act.CommandArg,data.DataId,act.DemandedDataFields)"></i>
                                                 <!--Link Type type-->
-                                                <a href="#" [title]="act.title?act.title:''" (click)="onClick(act.CommandArg,data.DataId)" *ngSwitchCase="2" [hidden]="!CheckCondition(data.DataElements,act.ActionVisibilityConditions)"></a>
-                                                <span *ngIf="CheckCondition(data.DataElements,act.ActionVisibilityConditions)">&nbsp;</span>
+                                                <a href="#" [title]="act.title?act.title:''" (click)="onClick(act.CommandArg,data.DataId)" *ngSwitchCase="2" [hidden]="!CheckCondition(data,act.ActionVisibilityConditions)"></a>
+                                                <span *ngIf="CheckCondition(data,act.ActionVisibilityConditions)">&nbsp;</span>
                                             </ng-container>
                                         </ng-container>
                                     </td>
